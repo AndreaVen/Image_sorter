@@ -3,7 +3,8 @@
 *.jpeg
 *.mp4
 *.gif
-*.log
+*.log*
 *.xml
+*.iml
 
 
