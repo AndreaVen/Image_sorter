@@ -19,9 +19,9 @@ class image_viewer:
     LOG_FILE = "image_sorter.log"
     def __init__(self,base_path,folder_names):
         self.root = Tk()
-
-        self.content = ttk.Frame(self.root)
-        self.frame = ttk.Frame(self.content, borderwidth=5, relief="ridge", width=1000, height=600)
+        #
+        # button1 = Button(frame1, text='Hello')
+        # button1.pack(side=RIGHT)
         self.root.title("Image Sorter")
         self.folder_names = folder_names
         self.file_list=[]
@@ -37,7 +37,7 @@ class image_viewer:
         self.class_button_width=15
         self.class_button_height=3
         self.image_height=600
-        self.image_width=1000;
+        self.image_width=900;
         self.build_geometry()
 
         for i in tqdm(self.file_list):
@@ -101,8 +101,8 @@ class image_viewer:
                 return file_list
 
     def start_gui(self):
-        self.label = Label(image=self.lista[0])
-        self.label.grid(row=0, column=0, columnspan=self.num_of_buttons_per_row)
+        self.label = Label(self.image_frame,image=self.lista[0])
+        self.label.grid(row=0, column=0, columnspan=8,rowspan=5)
         self.set_forward_button()
         self.set_back_button(True)
         self.set_exit_button()
@@ -159,7 +159,7 @@ class image_viewer:
         else:
             self.button_forward = Button(self.root,height=self.class_button_height, width=self.class_button_width, text="Forward",
                                          command=lambda: self.forward())
-        self.button_forward.grid(row=5, column=2)
+        self.button_forward.grid(row=10, column=2)
 
     def set_back_button(self, is_disabled=False):
         if is_disabled:
@@ -167,12 +167,12 @@ class image_viewer:
                                       state=DISABLED)
         else:
             self.button_back = Button(self.root, height=self.class_button_height, width=self.class_button_width, text="Back", command=lambda: self.back())
-        self.button_back.grid(row=5, column=0)
+        self.button_back.grid(row=10, column=0)
 
     def set_exit_button(self):
         self.button_exit = Button(self.root, height=self.class_button_height, width=self.class_button_width, text="Exit",
                                   command=self.root.quit)
-        self.button_exit.grid(row=5, column=1)
+        self.button_exit.grid(row=10, column=1)
 
     def forward(self):
         self.current_img_no=self.current_img_no+1
@@ -217,12 +217,12 @@ class image_viewer:
         for i in range(self.numClasses):
             addedRow = int(np.floor(i / self.num_of_buttons_per_row));
             if (addedRow == 0):
-                myColumn = i;
+                myColumn = i+self.num_of_buttons_per_row;
             else:
-                myColumn = i - self.num_of_buttons_per_row * addedRow;
-            self.buttonList.append(Button(self.root, height=self.class_button_height, width=self.class_button_width, text=self.folder_names[i],
+                myColumn = i +self.num_of_buttons_per_row- self.num_of_buttons_per_row * addedRow;
+            self.buttonList.append(Button(self.button_frame, height=self.class_button_height, width=self.class_button_width, text=self.folder_names[i],
                                           command=lambda i=i: self.cartellaN(i)))
-            self.buttonList[-1].grid(row=6 + addedRow, column=myColumn,sticky="nsew")
+            self.buttonList[-1].grid(row=0 + addedRow, column=myColumn,sticky="nsew")
 
     def check_base_path(self, base_path):
         if os.path.isdir(base_path):
@@ -236,4 +236,12 @@ class image_viewer:
         num_rows=np.ceil(len(self.folder_names)/self.num_of_buttons_per_row)
         height = int(self.image_height+100 + np.ceil(( num_rows * self.class_button_height*self.font_height)))
         self.root.geometry(str(width) + "x" + str(height))
+        self.image_frame=LabelFrame(self.root, text="image frame", width=self.image_width+100, height=self.image_width+100, padx=20, pady=20)
+        self.image_frame.grid(column=0, row=0, columnspan=8, rowspan=10, sticky="E")
+
+        self.button_frame=LabelFrame(self.root, text="button frame", padx=20, pady=20)
+        self.button_frame.grid(column=9, row=0, columnspan=8, rowspan=10, sticky="E")
+
+
+
 
