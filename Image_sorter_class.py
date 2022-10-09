@@ -133,9 +133,9 @@ class image_viewer:
         self.my_logger.debug("selected folder number "+str(numFolder))
         self.label.grid_forget()
         if self.current_img_no==len(self.lista)-1:
-            self.my_logger.info("image number"+self.current_img_no+"is the last image")
+            self.my_logger.info("image number"+str(self.current_img_no)+"is the last image")
             self.folderN[numFolder].append(self.file_list[self.current_img_no])
-            self.my_logger.info("added to folder"+self.folderN[numFolder])
+            self.my_logger.info("added to folder"+str(self.folderN[numFolder]))
             self.my_logger.info("appendend image "+str(self.current_img_no))
         elif self.current_img_no>=len(self.lista):
             self.my_logger.info("reached last image, cannot fo further")
